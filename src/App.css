@@ -36,3 +36,14 @@
     transform: rotate(360deg);
   }
 }
+.Input-json{
+  width: 350px;
+  height: 30px;
+
+}
+.label-json{
+  width: 150px;
+}
+.dummy{
+  height: 20px;
+}

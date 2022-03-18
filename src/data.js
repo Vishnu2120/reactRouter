@@ -1,42 +1,41 @@
-let Invoices = [
+ const Invoices = [
     {
-      name: "Santa Monica",
-      number: 1995,
-      amount: "$10,800",
-      due: "12/05/1995",
+      "name": "Dorustree",
+    "number": 1,
+    "address": "India",
+    "website": "https://www.dorustree.com/"
     },
     {
-      name: "Stankonia",
-      number: 2000,
-      amount: "$8,000",
-      due: "10/31/2000",
+      "name": "SilverCloud",
+    "number": 2,
+    "address": "India",
+    "website": "https://www.silvercloud.com/"
     },
     {
-      name: "Ocean Avenue",
-      number: 2003,
-      amount: "$9,500",
-      due: "07/22/2003",
+      "name": "Access Network",
+    "number": 3,
+    "address": "India",
+    "website": "https://www.anwsi.com/"
     },
     {
-      name: "Tubthumper",
-      number: 1997,
-      amount: "$14,000",
-      due: "09/01/1997",
+      "name": "10Decoders",
+    "number": 4,
+    "address": "India",
+    "website": "https://www.10Decoders.com/"
     },
-    {
-      name: "Wide Open Spaces",
-      number: 1998,
-      amount: "$4,600",
-      due: "01/27/1998",
-    },
+    
   ];
   
   export function getInvoices() {
-    return Invoices;
+    return JSON.stringify( Invoices);
   }
-  export function getInvoice(number) {
-    return Invoices.find(
-      (invoice) => invoice.number === number
-    );
+  // export function getInvoice(number) {
+  //   return Invoices.find(
+  //     (invoice) => invoice.number === number
+  //   );
+  // }
+
+  export function setInvoices(state){
+    return Invoices.push(state)
   }
   

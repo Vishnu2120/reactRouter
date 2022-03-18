@@ -15,7 +15,7 @@ render(
         index
         element={
           <main style={{ padding: "1rem" }}>
-            <p>Select an invoice</p>
+            {/* <p>Select an invoice</p> */}page
           </main>
         }
       />
