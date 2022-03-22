@@ -47,3 +47,7 @@
 .dummy{
   height: 20px;
 }
+.text{
+  text-align: center;
+  padding-right: 50%;
+}

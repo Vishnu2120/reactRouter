@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { NavLink,Link,Outlet,useSearchParams,} from "react-router-dom";
-import { getInvoices } from "../data";
+import { getInvoices,deleteInvoice } from "../data";
 import 'bootstrap/dist/css/bootstrap.css';
 import Container from 'react-bootstrap/Container';
 import { Table } from 'react-bootstrap';
@@ -12,12 +12,18 @@ import { Button } from "react-bootstrap";
        invoice = JSON.parse(getInvoices());
       setInvoices(invoice)
     }
+
     useEffect(()=>{
       getData();
     },[invoice])
-  //  let [searchParams, setSearchParams] = useSearchParams();
-    console.log('-->',invoices)
+
   
+    console.log('-->',invoices)
+    const deleteHandler = (index)=>{
+      console.log('index-->',index)
+      setInvoices(deleteInvoice(index))
+    }
+    //  let [searchParams, setSearchParams] = useSearchParams();
     return (
       <div style={{ display: "flex" }}>
         {/* <nav
@@ -68,16 +74,19 @@ import { Button } from "react-bootstrap";
               <th>Name</th>
               <th>Address</th>
               <th>Website</th>
+              <th></th>
+              <th></th>
             </tr>
           </thead>
           <tbody>
-            {invoices.map((invoice,number) => (
-              <tr key={invoice.number}>
-                <th scope="row">{number + 1}</th>
-                <td>{invoice.name}</td>
-                <td>{invoice.address}</td>
-                <td>{invoice.website}</td>
-                <td>Edit</td>
+            {invoices.map((each,index) => (
+              <tr key={index}>
+                <th scope="row">{index + 1}</th>
+                <td>{each.name}</td>
+                <td>{each.address}</td>
+                <td>{each.website}</td>
+                <td><Link to={`/expenses/${each.number}`} ><Button>Edit</Button></Link></td>
+                <td><Button onClick={()=>deleteHandler(index)} >Delete</Button></td>
               </tr>
             ))}
           </tbody>

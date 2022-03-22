@@ -5,8 +5,8 @@ function App() {
     <div>
       <h1>React Router</h1>
      <nav  style={{borderBottom:"solid 1px",paddingBottom:"1rem"}}>
-      <Link to="/Invoices">List</Link> | {""}
-      <Link to="/Expenses">Add </Link>
+      <Link to="/invoices">List</Link> | {""}
+      <Link to="/expenses/:invoiceId">Add </Link>
      </nav>
      <Outlet/>
     </div>

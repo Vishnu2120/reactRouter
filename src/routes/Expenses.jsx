@@ -1,43 +1,68 @@
 import { Button } from "react-bootstrap";
-import React from "react";
+import React, { useEffect,useState } from "react";
+import { useParams } from "react-router-dom";
+import { v4 } from "uuid";
+import { getInvoices } from "../data";
 import {Link} from "react-router-dom"
 import { setInvoices } from "../data";
+import '../App.css'; 
 
 function Expenses() {
+  const [buttonText, setButtonText] = useState("ADD");
+  const [nameInput, setName] = useState('');
+  const [addrInput, setAddress] = useState('');
+  const [webaddrInput, setWeb] = useState('');
+  console.log("test-->", nameInput,addrInput,webaddrInput);
   
-  let nameInput = React.createRef(); 
-  let addrInput = React.createRef();
-  let webaddrInput =React.createRef();
-  let onOnclickHandler=()=>{
-    const name =nameInput.current.value;
-    const addr= addrInput.current.value;
-    const web =webaddrInput.current.value;
-    // console.log(nameInput.current.value)
-    // console.log(addrInput.current.value)
-    
-    let state = {
-      name : name,
-      address : addr,
-      website: web
+  let {invoiceId} = useParams();
+  console.log('params-->',invoiceId)
+  let invoice;
+  if(invoiceId){
+    let invoices = JSON.parse( getInvoices());
+    invoice = invoices.find(inv=> inv.number === invoiceId)
   }
-  setInvoices(state)
-  console.log(state);
-  console.log(JSON.stringify(state));
-    //const convertJson = JSON.stringify(name)
-///console.log(convertJson);
+  useEffect(()=>{
+    setAddress(invoice?.address);
+    setName(invoice?.name);
+    setWeb(invoice?.website);
+  },[])
 
+  const onOnclickHandler=()=>{
+    console.log("nubetset  ===>> ", invoiceId);
+    console.log('typeof invoiceId',typeof(invoiceId))
+
+      if(invoiceId !==':invoiceId'){ //edit
+       
+        let state = {
+          name : nameInput,
+          address : addrInput,
+          website: webaddrInput,
+          number:invoiceId
+        }
+        setInvoices(state)
+      }
+      else{ //add
+        let state = {
+          name : nameInput,
+          address : addrInput,
+          website: webaddrInput,
+          number:v4()
+      }
+      setInvoices(state)
+      }
   }
     return (
       <main style={{ padding: "1rem 0" }}>
-        <h2>Add JsonData</h2>
-         <div>
-           <div><label className="label-json">Name:</label><input ref={nameInput}  className="Input-json" type="text"></input></div>
+        {/* <h2 className="text">Add Data</h2> */}
+         <div className="container">
+           
+           <div><label className="label-json">Name:</label><input onChange={e => setName(e.target.value)} value={nameInput}  className="Input-json" type="text"></input></div>
            <div className="dummy"></div>
-           <div><label className="label-json">Address:</label><input ref={addrInput} className="Input-json" type="text"></input></div>
+           <div><label className="label-json">Address:</label><input  onChange={e=> setAddress(e.target.value)} value={addrInput} className="Input-json" type="text"></input></div>
            <div className="dummy"></div>
-           <div><label className="label-json">Website:</label><input ref={webaddrInput} className="Input-json" type="text"></input></div>
+           <div><label className="label-json">Website:</label><input  onChange={e=>setWeb(e.target.value)} value={webaddrInput} className="Input-json" type="text"></input></div>
            <div className="dummy"></div>
-           <div><label className="label-json"></label><Link to='/invoices'><Button onClick={onOnclickHandler}>Add</Button></Link></div>
+           <div><label className="label-json"></label><Link to='/invoices'><Button onClick={()=>onOnclickHandler()}>Submit</Button></Link></div>
          </div>
       </main>
     );
