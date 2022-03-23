@@ -49,8 +49,8 @@
   }
 
   export function deleteInvoice(index){
-    Invoices.splice(index, 1);
-          return  Invoices
+      Invoices.splice(index, 1);
+      return  Invoices
           
   }
 

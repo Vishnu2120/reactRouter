@@ -3,6 +3,7 @@ import { BrowserRouter,Routes,Route } from "react-router-dom";
 import App from "./App";
 import Expenses from "./routes/Expenses";
 import Invoices from "./routes/Invoices";
+import HOC from "./HOC/HOC";
 
 const rootElement = document.getElementById("root");
 render(
@@ -12,7 +13,9 @@ render(
     <Route path="expenses" element={<Expenses />} /> 
     <Route path="expenses/:invoiceId" element={<Expenses />} />
     <Route path="invoices" element={<Invoices />}/>
-  </Route>
+    <Route path="hoc" element={<Invoices />}/>
+    </Route>
+  
   <Route
       path="*"
       element={

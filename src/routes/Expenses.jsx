@@ -1,14 +1,16 @@
 import { Button } from "react-bootstrap";
-import React, { useEffect,useState } from "react";
+import React, { useEffect,useReducer,useState } from "react";
 import { useParams } from "react-router-dom";
 import { v4 } from "uuid";
-import { getInvoices } from "../data";
+// import { getInvoices,setInvoices } from "../data";
+import rootReducer from "./reducers/rootReducer";
 import {Link} from "react-router-dom"
-import { setInvoices } from "../data";
 import '../App.css'; 
 
 function Expenses() {
-  const [buttonText, setButtonText] = useState("ADD");
+
+  const [reducerInvoice,dispatch]=useReducer(rootReducer,[]);
+ 
   const [nameInput, setName] = useState('');
   const [addrInput, setAddress] = useState('');
   const [webaddrInput, setWeb] = useState('');
@@ -17,39 +19,45 @@ function Expenses() {
   let {invoiceId} = useParams();
   console.log('params-->',invoiceId)
   let invoice;
-  if(invoiceId){
-    let invoices = JSON.parse( getInvoices());
+  if(invoiceId !==':invoiceId'){
+    dispatch({type:'GET_INVOICES'})
+    let invoices = reducerInvoice;
     invoice = invoices.find(inv=> inv.number === invoiceId)
   }
   useEffect(()=>{
     setAddress(invoice?.address);
     setName(invoice?.name);
     setWeb(invoice?.website);
-  },[])
+  },[invoice])
 
   const onOnclickHandler=()=>{
-    console.log("nubetset  ===>> ", invoiceId);
-    console.log('typeof invoiceId',typeof(invoiceId))
+    // console.log("nubetset  ===>> ", invoiceId);
+    // console.log('typeof invoiceId',typeof(invoiceId))
 
       if(invoiceId !==':invoiceId'){ //edit
        
-        let state = {
+        let Istate = {
           name : nameInput,
           address : addrInput,
           website: webaddrInput,
           number:invoiceId
         }
-        setInvoices(state)
+        // setInvoices(state)
+        dispatch({type:'SET_INVOICES',payload:Istate})
       }
       else{ //add
-        let state = {
+        let Istate = {
           name : nameInput,
           address : addrInput,
           website: webaddrInput,
           number:v4()
       }
-      setInvoices(state)
-      }
+      // setInvoices(state);
+      console.log('added')
+      console.log('Istate',Istate)
+      dispatch({type:'SET_INVOICES',payload:Istate})
+    }
+    console.log('reducerInvoice-Exp',reducerInvoice)
   }
     return (
       <main style={{ padding: "1rem 0" }}>
@@ -64,6 +72,7 @@ function Expenses() {
            <div className="dummy"></div>
            <div><label className="label-json"></label><Link to='/invoices'><Button onClick={()=>onOnclickHandler()}>Submit</Button></Link></div>
          </div>
+
       </main>
     );
   }
