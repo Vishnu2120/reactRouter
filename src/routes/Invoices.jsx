@@ -1,27 +1,32 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState,useReducer } from "react";
 import { NavLink,Link,Outlet,useSearchParams,} from "react-router-dom";
-import { getInvoices,deleteInvoice } from "../data";
+// import { getInvoices,deleteInvoice } from "../data";
 import 'bootstrap/dist/css/bootstrap.css';
 import Container from 'react-bootstrap/Container';
 import { Table } from 'react-bootstrap';
 import { Button } from "react-bootstrap";
+import rootReducer from "./reducers/rootReducer";
   export default function Invoices() {
     const [invoices,setInvoices]=useState([])
-    let invoice;
+    const [reducerInvoice,dispatch]=useReducer(rootReducer,[]);
+
     const getData = ()=>{
-       invoice = JSON.parse(getInvoices());
-      setInvoices(invoice)
+      dispatch({type:'GET_INVOICES'})
+      console.log('reducerInvoice-Inv',reducerInvoice)
+      //  invoice = reducerInvoice;
+      setInvoices(reducerInvoice)
     }
 
     useEffect(()=>{
       getData();
-    },[invoice])
+    },[])
 
   
-    console.log('-->',invoices)
+    // console.log('-->',invoices)
     const deleteHandler = (index)=>{
       console.log('index-->',index)
-      setInvoices(deleteInvoice(index))
+      dispatch({type:'DELETE_INVOICES',payload:index})
+      setInvoices(reducerInvoice)
     }
     //  let [searchParams, setSearchParams] = useSearchParams();
     return (
@@ -79,7 +84,7 @@ import { Button } from "react-bootstrap";
             </tr>
           </thead>
           <tbody>
-            {invoices.map((each,index) => (
+            {invoices && invoices.map((each,index) => (
               <tr key={index}>
                 <th scope="row">{index + 1}</th>
                 <td>{each.name}</td>
