@@ -2,13 +2,12 @@ import { Button } from "react-bootstrap";
 import React, { useEffect,useState } from "react";
 import { useParams } from "react-router-dom";
 import { v4 } from "uuid";
-import { getInvoices } from "../data";
+import { getInvoices,setInvoices } from "../data";
 import {Link} from "react-router-dom"
-import { setInvoices } from "../data";
 import '../App.css'; 
 
 function Expenses() {
-  const [buttonText, setButtonText] = useState("ADD");
+ 
   const [nameInput, setName] = useState('');
   const [addrInput, setAddress] = useState('');
   const [webaddrInput, setWeb] = useState('');
@@ -48,7 +47,7 @@ function Expenses() {
           website: webaddrInput,
           number:v4()
       }
-      setInvoices(state)
+      setInvoices(state);
       }
   }
     return (
